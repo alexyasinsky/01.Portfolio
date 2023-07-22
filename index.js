@@ -9,23 +9,26 @@ server.use(express.json());
 
 
 server.get('/catalog', (req, res) => {
-  fs.readFile('./server/db/catalog.json', 'utf-8', (err, data) => {
+  fs.readFile('./db/catalog.json', 'utf-8', (err, data) => {
       if (!err) {
+
           res.json(JSON.parse(data));
+      } else {
+        console.log(err)
       }
   })
 });
 
 server.get('/single:id', (req, res) => {
-  fs.readFile('./server/db/catalog.json', 'utf-8', (err, data) => {
+  fs.readFile('./db/catalog.json', 'utf-8', (err, data) => {
       if (!err) {
-        res.json(JSON.parse(data).find(item => item.id == req.params.id));
+        res.json(JSON.parse(data).find(item => item.id === req.params.id));
       }
   })
 });
 
 server.get('/cart', (req, res) => {
-  fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
+  fs.readFile('./db/cart.json', 'utf-8', (err, data) => {
       if (!err) {
           res.json(JSON.parse(data));
       }
@@ -33,10 +36,10 @@ server.get('/cart', (req, res) => {
 });
 
 server.post('/cart', (req, res) => {
-  fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
+  fs.readFile('./db/cart.json', 'utf-8', (err, data) => {
       if (!err) {
           let newCart = cart.add(JSON.parse(data), req.body);
-          writer('./server/db/cart.json', newCart)
+          writer('./db/cart.json', newCart)
               .then(status => {
                   if (status) {
                       res.json({ status });
@@ -51,10 +54,10 @@ server.post('/cart', (req, res) => {
 })
 
 server.put('/cart/:id', (req, res) => {
-  fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
+  fs.readFile('./db/cart.json', 'utf-8', (err, data) => {
       if (!err) {
           let newCart = cart.change(JSON.parse(data), req.params.id, req.body.amount);
-          writer('./server/db/cart.json', newCart)
+          writer('./db/cart.json', newCart)
               .then(status => {
                   if (status) {
                       res.json({ status });
@@ -69,10 +72,10 @@ server.put('/cart/:id', (req, res) => {
 })
 
 server.delete('/cart/:id', (req, res) => {
-  fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
+  fs.readFile('./db/cart.json', 'utf-8', (err, data) => {
       if (!err) {
           let newCart = cart.delete(JSON.parse(data), req.params.id);
-          writer('./server/db/cart.json', newCart)
+          writer('./db/cart.json', newCart)
               .then(status => {
                   if (status) {
                       res.json({ status });
@@ -85,9 +88,6 @@ server.delete('/cart/:id', (req, res) => {
       }
   })
 })
-
-//когда проект полностью готов
-// server.use('/', express.static('server/public'));
 
 
 server.listen(3000, () => { console.log('SERVER AT PORT 3000...') });
