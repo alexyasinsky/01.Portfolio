@@ -23,6 +23,8 @@ server.get('/single:id', (req, res) => {
   fs.readFile('./db/catalog.json', 'utf-8', (err, data) => {
       if (!err) {
         res.json(JSON.parse(data).find(item => item.id === req.params.id));
+      } else {
+        console.log(err)
       }
   })
 });
@@ -31,6 +33,8 @@ server.get('/cart', (req, res) => {
   fs.readFile('./db/cart.json', 'utf-8', (err, data) => {
       if (!err) {
           res.json(JSON.parse(data));
+      } else {
+        console.log(err)
       }
   })
 });
