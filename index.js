@@ -1,9 +1,11 @@
 const express = require('express');
 const fs = require('fs');
+import cors from 'cors';
 const writer = require('./utils/writer.js'); //() => true/false
 const cart = require('./services/cart.js'); // cart.add() // cart.change() // cart.delete() // => ({cart})
 
 const server = express();
+server.use(cors());
 server.use(express.json());
 
 
