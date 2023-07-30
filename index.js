@@ -13,7 +13,6 @@ server.use(express.json());
 server.get('/catalog', (req, res) => {
   fs.readFile('./db/catalog.json', 'utf-8', (err, data) => {
       if (!err) {
-
           res.json(JSON.parse(data));
       } else {
         console.log(err)
@@ -24,7 +23,7 @@ server.get('/catalog', (req, res) => {
 server.get('/single:id', (req, res) => {
   fs.readFile('./db/catalog.json', 'utf-8', (err, data) => {
       if (!err) {
-        res.json(JSON.parse(data).find(item => item.id === req.params.id));
+        res.json(JSON.parse(data).find(item => item.id == req.params.id));
       } else {
         console.log(err)
       }
